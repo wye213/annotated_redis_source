@@ -157,11 +157,8 @@ void sdsclear(sds s) {
  *
  * T = O(N)
  */
-sds sdsMakeRoomFor(
-    sds s,
-    size_t addlen   // 需要增加的空间长度
-) 
-{
+ //addlen 是需要增加的空间长度
+sds sdsMakeRoomFor(sds s, size_t addlen) {
     struct sdshdr *sh, *newsh;
     size_t free = sdsavail(s);
     size_t len, newlen;
@@ -169,7 +166,7 @@ sds sdsMakeRoomFor(
     // 剩余空间可以满足需求，无须扩展
     if (free >= addlen) return s;
 
-    sh = (void*) (s-(sizeof(struct sdshdr)));
+    sh = (void*)(s-(sizeof(struct sdshdr)));
 
     // 目前 buf 长度
     len = sdslen(s);
@@ -332,7 +329,6 @@ sds sdsgrowzero(sds s, size_t len) {
  * T = O(N)
  */
 sds sdscatlen(sds s, const void *t, size_t len) {
-
     struct sdshdr *sh;
 
     size_t curlen = sdslen(s);
